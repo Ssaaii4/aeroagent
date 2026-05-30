@@ -1,5 +1,4 @@
 import asyncio
-from playwright.async_api import async_playwright
 from tools.keyvault_tool import get_secret
 from config import DEMO_MODE
 
@@ -15,6 +14,7 @@ async def fill_booking_form(flight: dict, passenger: dict) -> dict:
             "page_state": {"demo": True}
         }
 
+    from playwright.async_api import async_playwright
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
         page    = await browser.new_page()
@@ -45,6 +45,7 @@ async def complete_payment(page_state: dict, passenger: dict) -> dict:
             "status":  "confirmed (sandbox)"
         }
 
+    from playwright.async_api import async_playwright
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
         ctx     = await browser.new_context(storage_state=page_state)
