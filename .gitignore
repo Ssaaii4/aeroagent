@@ -1,0 +1,10 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+node_modules/
+aeroagent-frontend/node_modules/
+aeroagent-frontend/build/
+*.log
+.DS_Store
