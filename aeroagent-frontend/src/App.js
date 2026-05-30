@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import "./App.css";
 
-const API = "http://localhost:8000";
+const API = "https://aeroagent-api.azurewebsites.net";
 
 function generateSessionId() {
   return Math.random().toString(36).substring(2, 15);
