@@ -158,7 +158,7 @@ aeroagent/
 ---
 
 ## 🌐 Live demo
-URL:      https://aeroagent.azurestaticapps.net
+URL:     https://witty-flower-0e99f2c10.7.azurestaticapps.net
 Email:    judge@aeroagent.dev
 Password: AeroAgent2026!
 
