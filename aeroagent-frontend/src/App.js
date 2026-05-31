@@ -47,7 +47,9 @@ export default function App() {
         addMessage("agent", data.reply);
         setState(data.state || "chatting");
         if (data.summary) setSummary(data.summary);
-        if (data.state === "awaiting_approval") pollApproval();
+        if (data.state === "awaiting_approval") {
+  	setTimeout(() => pollApproval(), 6000);
+		}
       } else {
         const res = await fetch(`${API}/chat`, {
           method: "POST",

@@ -28,7 +28,8 @@ def compare_flights(flights: list, intent: dict) -> list:
     )
     text = r.choices[0].message.content
     text = text.replace("```json","").replace("```","").strip()
-    return json.loads(text)[:3]
+    ranked = json.loads(text)
+    return ranked[:3] if len(ranked) >= 3 else ranked
 
 def format_choice_card(top3: list) -> str:
     lines = ["Here are your top 3 flights:\n"]
