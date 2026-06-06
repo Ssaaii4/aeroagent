@@ -22,25 +22,20 @@ export default function App() {
   const [otpError, setOtpError]   = useState("");
   const bottomRef                 = useRef(null);
 
-  useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, state]);
-
-  // Handle redirect back from approval page
-  useEffect(() => {
+useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const approved = params.get("approved");
     const id = params.get("id");
     if (approved === "true" && id) {
-      window.history.replaceState({}, "", "/");
-      addMessage("agent", "✅ Booking approved via email! Completing your booking now...");
-      setState("complete");
+        window.history.replaceState({}, "", "/");
+        addMessage("agent", "✅ Email approval confirmed! Your booking is complete.");
+        setState("complete");
     } else if (approved === "false") {
-      window.history.replaceState({}, "", "/");
-      addMessage("agent", "❌ Approval rejected or expired. Please start again.");
-      setState("chatting");
+        window.history.replaceState({}, "", "/");
+        addMessage("agent", "❌ Approval rejected or expired. Please start again.");
+        setState("chatting");
     }
-  }, []);
+}, []);
 
   const addMessage = (role, text) => {
     setMessages(prev => [...prev, { role, text }]);

@@ -87,10 +87,11 @@ async def send_verification_email(
     summary: dict,
     flight: dict
 ):
-    approve_url = (
-        f"{FRONTEND_URL}/approve"
-        f"?id={approval_id}&token={otp}"
-    )
+    BACKEND_URL = "https://aeroagent-api.salmonsand-ae41dd1f.eastus.azurecontainerapps.io"
+approve_url = (
+    f"{BACKEND_URL}/approve"
+    f"?id={approval_id}&token={otp}"
+)
     payload = {
         "to_email":    user_email,
         "approval_id": approval_id,

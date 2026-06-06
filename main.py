@@ -161,25 +161,7 @@ async def handle_selection(choice: str, session: dict, reply_fn):
 
     session["state"] = "awaiting_approval"
 
-    # demo mode — auto approve after 5 seconds
-    from config import DEMO_MODE
-    if DEMO_MODE:
-        await asyncio.sleep(5)
-        from azure.search.documents import SearchClient
-        from azure.core.credentials import AzureKeyCredential
-        from config import SEARCH_ENDPOINT, SEARCH_ADMIN_KEY
-        sc = SearchClient(
-            SEARCH_ENDPOINT, "approvals",
-            AzureKeyCredential(SEARCH_ADMIN_KEY)
-        )
-        sc.upload_documents([{
-            "id":           approval_id,
-            "status":       "approved",
-            "triggered_at": "",
-            "approved_at":  ""
-        }])
-
-    approved = await poll_approval(approval_id, timeout_seconds=30)
+   approved = await poll_approval(approval_id, timeout_seconds=300)
 
     if not approved:
         await reply_fn("Approval timed out. Booking cancelled for safety.")
