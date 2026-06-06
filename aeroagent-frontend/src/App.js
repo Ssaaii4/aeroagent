@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from "react";
 import "./App.css";
 
 const API = "https://aeroagent-api.salmonsand-ae41dd1f.eastus.azurecontainerapps.io";
-const FRONTEND = "https://witty-flower-0e99f2c10.7.azurestaticapps.net";
 
 function generateSessionId() {
   return Math.random().toString(36).substring(2, 15);
@@ -18,7 +17,7 @@ export default function App() {
   const [state, setState]         = useState("chatting");
   const [sessionId]               = useState(generateSessionId);
   const [summary, setSummary]     = useState(null);
-  const [approvalId, setApprovalId] = useState(null);
+  const [, setApprovalId] = useState(null);
   const [otp, setOtp]             = useState("");
   const [otpError, setOtpError]   = useState("");
   const bottomRef                 = useRef(null);
