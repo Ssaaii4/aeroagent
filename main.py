@@ -5,7 +5,8 @@ from agents.search_agent  import search_flights
 from agents.compare_agent import compare_flights, format_choice_card
 from agents.booking_agent import fill_booking_form, complete_payment
 from agents.notify_agent  import build_confirmation_message
-from agents.logicapps     import trigger_approval, poll_approval
+from agents.logicapps    import poll_approval
+from agents.verify_agent import generate_otp, store_otp, send_verification_email
 from tools.keyvault_tool  import get_secret
 
 load_dotenv()
@@ -137,23 +138,26 @@ async def handle_selection(choice: str, session: dict, reply_fn):
     approval_id = str(uuid.uuid4())
     session["approval_id"] = approval_id
 
-    await trigger_approval(
-        approval_id=approval_id,
-        user_email=intent.get("user_email", "judge@aeroagent.dev"),
-        summary=summary,
-        flight=flight
-    )
+   otp = generate_otp()
+   store_otp(approval_id, otp, summary, flight)
+   await send_verification_email(
+   user_email=intent.get("user_email", "judge@aeroagent.dev"),
+   approval_id=approval_id,
+   otp=otp,
+   summary=summary,
+   flight=flight
+   )
 
     await reply_fn(
-        f"Booking summary:\n"
-        f"  Flight:  {summary['airline']} {summary['flight_no']}\n"
-        f"  Departs: {summary['departs']}\n"
-        f"  Arrives: {summary['arrives']}\n"
-        f"  Seat:    {summary['seat']}\n"
-        f"  Total:   {summary['total']}\n\n"
-        f"Waiting for your approval...\n"
-        f"(Demo mode: approval auto-completes in 5 seconds)"
-    )
+    f"Booking summary:\n"
+    f"  Flight:  {summary['airline']} {summary['flight_no']}\n"
+    f"  Departs: {summary['departs']}\n"
+    f"  Arrives: {summary['arrives']}\n"
+    f"  Seat:    {summary['seat']}\n"
+    f"  Total:   {summary['total']}\n\n"
+    f"A verification email has been sent to {intent.get('user_email')}.\n"
+    f"Click the approval link in the email, or type your 6-digit OTP here."
+   )
 
     session["state"] = "awaiting_approval"
 
